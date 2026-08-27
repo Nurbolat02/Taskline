@@ -1,0 +1,14 @@
+.row {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.75rem;
+}
+
+.colorInput {
+	height: 2.25rem;
+	width: 3.5rem;
+}
+
+.nameField {
+	flex: 1;
+}

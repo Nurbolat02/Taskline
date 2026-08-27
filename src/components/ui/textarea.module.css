@@ -1,0 +1,26 @@
+.textarea {
+	display: flex;
+	min-height: 5rem;
+	width: 100%;
+	border-radius: var(--radius-md);
+	border: 1px solid var(--input);
+	background: var(--background);
+	padding: 0.5rem 0.75rem;
+	font-size: 0.875rem;
+	transition: border-color 0.15s ease;
+}
+
+.textarea::placeholder {
+	color: var(--muted-foreground);
+}
+
+.textarea:focus-visible {
+	outline: none;
+	border-color: var(--ring);
+	box-shadow: 0 0 0 2px color-mix(in oklch, var(--ring) 30%, transparent);
+}
+
+.textarea:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}

@@ -1,0 +1,50 @@
+/*
+ * Общие классы для всех форм проекта (login/register/category/task).
+ * Один файл вместо копии одних и тех же 6 строк в каждой feature-папке.
+ */
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+
+.grid2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.errorText {
+	font-size: 0.875rem;
+	color: var(--destructive);
+}
+
+.footerText {
+	text-align: center;
+	font-size: 0.875rem;
+	color: var(--muted-foreground);
+}
+
+.footerLink {
+	color: var(--foreground);
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.selfEnd {
+	align-self: flex-end;
+}

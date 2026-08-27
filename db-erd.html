@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>learn-fullstack — схема базы данных</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #eef1f4;
+    --border: #dde1e6;
+    --text-primary: #1a1d21;
+    --text-secondary: #5c6570;
+    --accent: #3b6e8f;
+    --accent-soft: #e4edf1;
+    --cascade: #b5533c;
+    --setnull: #3b7a5a;
+    --radius: 10px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171b;
+      --surface: #1c1f24;
+      --surface-2: #23262c;
+      --border: #2c3138;
+      --text-primary: #eceef0;
+      --text-secondary: #97a1ac;
+      --accent: #7fb3cf;
+      --accent-soft: #223138;
+      --cascade: #e0876f;
+      --setnull: #7fbf98;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 24px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 650;
+    margin: 4px 0 0;
+    text-wrap: balance;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 65ch;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .diagram-scroll {
+    overflow-x: auto;
+  }
+
+  .diagram-scroll svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+  }
+
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13.5px;
+  }
+
+  .legend-swatch {
+    flex: none;
+    width: 28px;
+    height: 2px;
+    margin-top: 9px;
+    border-radius: 2px;
+  }
+
+  .legend-swatch.cascade { background: var(--cascade); }
+  .legend-swatch.setnull { background: var(--setnull); background-image: repeating-linear-gradient(90deg, var(--setnull) 0 6px, transparent 6px 10px); }
+
+  .legend-text b { color: var(--text-primary); }
+  .legend-text span { color: var(--text-secondary); display: block; }
+
+  table.cols {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+  }
+
+  table.cols th {
+    text-align: left;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.cols td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  table.cols td.type { color: var(--accent); }
+  table.cols td.note { font-family: ui-sans-serif, system-ui, sans-serif; color: var(--text-secondary); white-space: normal; }
+
+  .tables-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 700px) {
+    .tables-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .table-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .table-card .name {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-weight: 650;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div>
+    <div class="eyebrow">learn-fullstack · postgres schema</div>
+    <h1>Схема базы данных: 5 таблиц, 4 связи</h1>
+  </div>
+
+  <p class="intro">
+    ER-диаграмма всей схемы из <code>src/db/schema/*.ts</code>. Стрелки — внешние ключи,
+    подпись на линии — поведение <code>onDelete</code>.
+  </p>
+
+  <div class="card diagram-scroll">
+    <pre class="mermaid">
+erDiagram
+    USERS ||--o{ SESSIONS : "cascade"
+    USERS ||--o{ ACTIVITY_LOG : "cascade"
+    USERS ||--o{ CATEGORIES : "cascade"
+    USERS ||--o{ TASKS : "cascade"
+    CATEGORIES o|--o{ TASKS : "set null"
+
+    USERS {
+        uuid id PK
+        text email UK
+        text password_hash
+        text name
+        timestamp created_at
+    }
+
+    SESSIONS {
+        uuid id PK
+        uuid user_id FK
+        text user_agent
+        text ip_address
+        timestamp created_at
+        timestamp expires_at
+        timestamp revoked_at
+    }
+
+    ACTIVITY_LOG {
+        uuid id PK
+        uuid user_id FK
+        text action
+        jsonb metadata
+        timestamp created_at
+    }
+
+    CATEGORIES {
+        uuid id PK
+        uuid user_id FK
+        text name
+        text color
+        timestamp created_at
+    }
+
+    TASKS {
+        uuid id PK
+        uuid user_id FK
+        uuid category_id FK
+        text title
+        text description
+        text status
+        timestamp due_date
+        timestamp created_at
+        timestamp updated_at
+    }
+    </pre>
+  </div>
+
+  <div class="card">
+    <h2>Как читать связи</h2>
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-swatch cascade"></span>
+        <span class="legend-text"><b>cascade</b><span>Удалили user → удаляется и связанная строка (sessions, activity_log, categories, tasks). Колонка notNull().</span></span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch setnull"></span>
+        <span class="legend-text"><b>set null</b><span>Удалили category → у task просто обнуляется category_id, сама задача остаётся. Колонка nullable.</span></span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-text"><b>||</b><span>ровно одна запись (обязательная сторона)</span></span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-text"><b>o{</b><span>ноль или много записей</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Колонки по таблицам</h2>
+    <div class="tables-grid">
+      <div class="table-card">
+        <div class="name">users</div>
+        <table class="cols">
+          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><td>id</td><td class="type">uuid</td><td class="note">PK, defaultRandom</td></tr>
+          <tr><td>email</td><td class="type">text</td><td class="note">notNull, unique</td></tr>
+          <tr><td>password_hash</td><td class="type">text</td><td class="note">notNull, bcrypt-хэш</td></tr>
+          <tr><td>name</td><td class="type">text</td><td class="note">notNull</td></tr>
+          <tr><td>created_at</td><td class="type">timestamp</td><td class="note">notNull, defaultNow</td></tr>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="name">sessions</div>
+        <table class="cols">
+          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
+          <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
+          <tr><td>user_agent</td><td class="type">text</td><td class="note">nullable</td></tr>
+          <tr><td>ip_address</td><td class="type">text</td><td class="note">nullable</td></tr>
+          <tr><td>expires_at</td><td class="type">timestamp</td><td class="note">notNull</td></tr>
+          <tr><td>revoked_at</td><td class="type">timestamp</td><td class="note">nullable</td></tr>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="name">activity_log</div>
+        <table class="cols">
+          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
+          <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
+          <tr><td>action</td><td class="type">text</td><td class="note">notNull, напр. "task.created"</td></tr>
+          <tr><td>metadata</td><td class="type">jsonb</td><td class="note">nullable, гибкий объект</td></tr>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="name">categories</div>
+        <table class="cols">
+          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
+          <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
+          <tr><td>name</td><td class="type">text</td><td class="note">notNull</td></tr>
+          <tr><td>color</td><td class="type">text</td><td class="note">notNull, default #64748b</td></tr>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="name">tasks</div>
+        <table class="cols">
+          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
+          <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
+          <tr><td>category_id</td><td class="type">uuid</td><td class="note">FK → categories.id, set null</td></tr>
+          <tr><td>status</td><td class="type">text</td><td class="note">default "todo"</td></tr>
+          <tr><td>due_date</td><td class="type">timestamp</td><td class="note">nullable</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  var isDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({ startOnLoad: true, theme: isDark ? "dark" : "default" });
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.headerRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.title {
+	height: 1.75rem;
+	width: 8rem;
+}
+
+.action {
+	height: 2.25rem;
+	width: 8rem;
+}
+
+.search {
+	height: 2.25rem;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.row {
+	height: 4rem;
+	width: 100%;
+}

@@ -1,0 +1,30 @@
+.badge {
+	display: inline-flex;
+	align-items: center;
+	border-radius: var(--radius-md);
+	border: 1px solid transparent;
+	padding: 0.125rem 0.5rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+.default {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}
+
+.secondary {
+	background: var(--secondary);
+	color: var(--secondary-foreground);
+}
+
+.destructive {
+	background: var(--destructive);
+	color: var(--destructive-foreground);
+}
+
+.outline {
+	border-color: var(--border);
+	color: var(--foreground);
+}

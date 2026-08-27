@@ -1,0 +1,8 @@
+.row {
+	font-size: 0.875rem;
+}
+
+.meta {
+	font-size: 0.75rem;
+	color: var(--muted-foreground);
+}
