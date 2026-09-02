@@ -1,6 +1,6 @@
 /*
- * Общая разметка для приватных страниц (main)/*: вертикальный стек +
- * шапка "заголовок + действие" — повторяется на dashboard/categories/activity.
+ * Shared layout for the private (main)/* pages: a vertical stack plus a
+ * "title + action" header — repeated across dashboard/categories/activity.
  */
 
 .page {

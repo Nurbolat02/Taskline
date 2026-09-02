@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>learn-fullstack — схема базы данных</title>
+<title>learn-fullstack — database schema</title>
 <style>
   :root {
     --bg: #f7f8fa;
@@ -185,12 +185,12 @@
 <div class="page">
   <div>
     <div class="eyebrow">learn-fullstack · postgres schema</div>
-    <h1>Схема базы данных: 5 таблиц, 4 связи</h1>
+    <h1>Database schema: 5 tables, 4 relations</h1>
   </div>
 
   <p class="intro">
-    ER-диаграмма всей схемы из <code>src/db/schema/*.ts</code>. Стрелки — внешние ключи,
-    подпись на линии — поведение <code>onDelete</code>.
+    ER diagram of the whole schema from <code>src/db/schema/*.ts</code>. Arrows are foreign
+    keys, the label on each line is the <code>onDelete</code> behavior.
   </p>
 
   <div class="card diagram-scroll">
@@ -251,35 +251,35 @@ erDiagram
   </div>
 
   <div class="card">
-    <h2>Как читать связи</h2>
+    <h2>How to read the relations</h2>
     <div class="legend">
       <div class="legend-item">
         <span class="legend-swatch cascade"></span>
-        <span class="legend-text"><b>cascade</b><span>Удалили user → удаляется и связанная строка (sessions, activity_log, categories, tasks). Колонка notNull().</span></span>
+        <span class="legend-text"><b>cascade</b><span>Delete a user → the related row is deleted too (sessions, activity_log, categories, tasks). Column is notNull().</span></span>
       </div>
       <div class="legend-item">
         <span class="legend-swatch setnull"></span>
-        <span class="legend-text"><b>set null</b><span>Удалили category → у task просто обнуляется category_id, сама задача остаётся. Колонка nullable.</span></span>
+        <span class="legend-text"><b>set null</b><span>Delete a category → the task's category_id is just cleared, the task itself stays. Column is nullable.</span></span>
       </div>
       <div class="legend-item">
-        <span class="legend-text"><b>||</b><span>ровно одна запись (обязательная сторона)</span></span>
+        <span class="legend-text"><b>||</b><span>exactly one record (required side)</span></span>
       </div>
       <div class="legend-item">
-        <span class="legend-text"><b>o{</b><span>ноль или много записей</span></span>
+        <span class="legend-text"><b>o{</b><span>zero or many records</span></span>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>Колонки по таблицам</h2>
+    <h2>Columns by table</h2>
     <div class="tables-grid">
       <div class="table-card">
         <div class="name">users</div>
         <table class="cols">
-          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><th>column</th><th>type</th><th></th></tr>
           <tr><td>id</td><td class="type">uuid</td><td class="note">PK, defaultRandom</td></tr>
           <tr><td>email</td><td class="type">text</td><td class="note">notNull, unique</td></tr>
-          <tr><td>password_hash</td><td class="type">text</td><td class="note">notNull, bcrypt-хэш</td></tr>
+          <tr><td>password_hash</td><td class="type">text</td><td class="note">notNull, bcrypt hash</td></tr>
           <tr><td>name</td><td class="type">text</td><td class="note">notNull</td></tr>
           <tr><td>created_at</td><td class="type">timestamp</td><td class="note">notNull, defaultNow</td></tr>
         </table>
@@ -288,7 +288,7 @@ erDiagram
       <div class="table-card">
         <div class="name">sessions</div>
         <table class="cols">
-          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><th>column</th><th>type</th><th></th></tr>
           <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
           <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
           <tr><td>user_agent</td><td class="type">text</td><td class="note">nullable</td></tr>
@@ -301,18 +301,18 @@ erDiagram
       <div class="table-card">
         <div class="name">activity_log</div>
         <table class="cols">
-          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><th>column</th><th>type</th><th></th></tr>
           <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
           <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
-          <tr><td>action</td><td class="type">text</td><td class="note">notNull, напр. "task.created"</td></tr>
-          <tr><td>metadata</td><td class="type">jsonb</td><td class="note">nullable, гибкий объект</td></tr>
+          <tr><td>action</td><td class="type">text</td><td class="note">notNull, e.g. "task.created"</td></tr>
+          <tr><td>metadata</td><td class="type">jsonb</td><td class="note">nullable, free-form object</td></tr>
         </table>
       </div>
 
       <div class="table-card">
         <div class="name">categories</div>
         <table class="cols">
-          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><th>column</th><th>type</th><th></th></tr>
           <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
           <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
           <tr><td>name</td><td class="type">text</td><td class="note">notNull</td></tr>
@@ -323,7 +323,7 @@ erDiagram
       <div class="table-card">
         <div class="name">tasks</div>
         <table class="cols">
-          <tr><th>колонка</th><th>тип</th><th></th></tr>
+          <tr><th>column</th><th>type</th><th></th></tr>
           <tr><td>id</td><td class="type">uuid</td><td class="note">PK</td></tr>
           <tr><td>user_id</td><td class="type">uuid</td><td class="note">FK → users.id, cascade</td></tr>
           <tr><td>category_id</td><td class="type">uuid</td><td class="note">FK → categories.id, set null</td></tr>

@@ -10,11 +10,13 @@ export const tasks = pgTable("tasks", {
     .references(() => users.id, {
       onDelete: "cascade",
     }),
-  // Если категорию удалят — задача останется, просто без категории (set null, не cascade).
+  // If the category is deleted, the task stays — it just loses its category
+  // (set null, not cascade).
   categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
   title: text("title").notNull(),
   description: text("description"),
-  // Хранится обычным текстом, а не через pgEnum — список статусов ("todo" | "in_progress" | "done") живёт в схеме валидации.
+  // Stored as plain text rather than a pgEnum — the list of statuses
+  // ("todo" | "in_progress" | "done") lives in the validation schema.
   status: text("status").notNull().default("todo"),
   dueDate: timestamp("due_date"),
   createdAt: timestamp("created_at").notNull().defaultNow(),

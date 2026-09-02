@@ -8,8 +8,8 @@ import { TASK_STATUS_LABELS, type TaskStatus } from "@/schemas/task";
 import { Badge } from "@/components/ui/badge";
 import styles from "@/styles/page.module.css";
 
-// Динамический маршрут: /tasks/[id]. В Next.js 15+/16 `params` — это Promise,
-// его нужно await-нуть перед использованием.
+// Dynamic route: /tasks/[id]. In Next.js 15+/16 `params` is a Promise and
+// needs to be awaited before use.
 export default async function TaskDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getCurrentUser();
@@ -25,7 +25,7 @@ export default async function TaskDetailPage({ params }: { params: Promise<{ id:
   return (
     <div className={`${styles.page} ${styles.narrow}`}>
       <Link href="/" className={styles.backLink}>
-        ← Ко всем задачам
+        ← Back to all tasks
       </Link>
       <div className={styles.titleRow}>
         <h1 className={styles.title}>{task.title}</h1>
@@ -38,7 +38,7 @@ export default async function TaskDetailPage({ params }: { params: Promise<{ id:
       </div>
       {task.description && <p className={styles.bodyText}>{task.description}</p>}
       {task.dueDate && (
-        <p className={styles.subtitleMuted}>Срок: {new Date(task.dueDate).toLocaleDateString("ru-RU")}</p>
+        <p className={styles.subtitleMuted}>Due: {new Date(task.dueDate).toLocaleDateString("en-US")}</p>
       )}
     </div>
   );

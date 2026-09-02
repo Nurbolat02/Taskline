@@ -29,12 +29,12 @@ export function RegisterForm() {
       </div>
       {result.serverError && <p className={form.errorText}>{result.serverError}</p>}
       <Button type="submit" disabled={isExecuting}>
-        {isExecuting ? "Создаём аккаунт..." : "Зарегистрироваться"}
+        {isExecuting ? "Creating account..." : "Sign up"}
       </Button>
       <p className={form.footerText}>
-        Уже есть аккаунт?{" "}
+        Already have an account?{" "}
         <Link href="/login" className={form.footerLink}>
-          Войти
+          Log in
         </Link>
       </p>
     </form>

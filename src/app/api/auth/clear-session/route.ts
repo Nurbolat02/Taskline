@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { destroySession } from "@/lib/auth/session";
 
-// Server Component (например MainLayout) не может сам удалить cookie во время рендера —
-// Next.js разрешает менять cookie только в Server Action или Route Handler. Поэтому когда
-// нужно принудительно завершить сессию из Server Component, отправляем пользователя сюда:
-// этот Route Handler удаляет сессию и cookie, затем перенаправляет на /login.
+// A Server Component (e.g. MainLayout) can't delete a cookie itself during
+// render — Next.js only allows changing cookies in a Server Action or Route
+// Handler. So when a session needs to be force-ended from a Server Component,
+// the user is sent here: this Route Handler clears the session and cookie,
+// then redirects to /login.
 export async function GET(request: Request) {
   await destroySession();
 

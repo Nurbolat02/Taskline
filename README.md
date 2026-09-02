@@ -1,64 +1,64 @@
 # Learn Fullstack — Task Tracker
 
-Учебный проект: маленький Task Tracker с категориями, написанный для того,
-чтобы его несколько раз переписать и закрепить современный Next.js-стек.
+A learning project: a small Task Tracker with categories, built to be
+rewritten a few times over while getting comfortable with the modern Next.js stack.
 
-## Стек
+## Stack
 
 - Next.js 16 (App Router), React 19, TypeScript
-- Tailwind CSS 4 + shadcn-style компоненты на radix-ui
+- Plain CSS (CSS Modules) + shadcn-style components on top of radix-ui
 - PostgreSQL (Docker) + Drizzle ORM
-- Своя JWT-авторизация: bcrypt + jose + httpOnly cookie + middleware
+- Custom JWT auth: bcrypt + jose + httpOnly cookie + middleware
 - Server Actions + next-safe-action
 - React Hook Form + Zod
-- Zustand (только для UI-состояния: сайдбар, фильтры задач)
+- Zustand (UI state only: sidebar, task filters)
 - Session / Activity log
 
-## Как запустить
+## Getting started
 
 ```bash
-# 1. Поднять Postgres
+# 1. Start Postgres
 docker compose up -d
 
-# 2. Скопировать env и при желании поменять JWT_SECRET
+# 2. Copy the env file and change JWT_SECRET if you want
 cp .env.example .env
 
-# 3. Поставить зависимости
+# 3. Install dependencies
 bun install
 
-# 4. Накатить схему в БД (для разработки проще push, чем generate+migrate)
+# 4. Push the schema to the DB (push is simpler than generate+migrate for dev)
 bun run db:push
 
-# 5. Запустить дев-сервер
+# 5. Start the dev server
 bun dev
 ```
 
-Откройте http://localhost:3000 — редирект на /login, зарегистрируйтесь и пользуйтесь.
+Open http://localhost:3000 — it redirects to /login, sign up and start using it.
 
-## Структура
+## Structure
 
 ```
 src/
- ├── app          — роуты (App Router): (auth) и (main) route groups
+ ├── app          — routes (App Router): (auth) and (main) route groups
  ├── actions      — server actions ("use server"), next-safe-action
- ├── components   — ui/ (shadcn-style примитивы) и layout/ (navbar, sidebar)
- ├── features      — компоненты конкретных фич (формы, списки), группировка по домену
+ ├── components   — ui/ (shadcn-style primitives) and layout/ (navbar, sidebar)
+ ├── features      — components for specific features (forms, lists), grouped by domain
  ├── lib           — auth (jwt/password/session), safe-action, utils
- ├── db            — drizzle schema + подключение
- ├── schemas       — zod-схемы, общие для клиента и сервера
+ ├── db            — drizzle schema + connection
+ ├── schemas       — zod schemas, shared between client and server
  ├── store         — zustand
- └── types         — общие TS-типы
+ └── types         — shared TS types
 ```
 
-## Путь переписывания (см. план обучения)
+## Rewrite path (see the learning plan)
 
-1. Полностью повторить проект как есть.
-2. Переписать backend (schema, actions, auth) самостоятельно, оставив UI.
-3. Переписать frontend (компоненты, формы) самостоятельно, оставив backend.
-4. Переписать всё целиком.
-5. Написать с нуля без референса — по памяти.
+1. Fully reproduce the project as-is.
+2. Rewrite the backend (schema, actions, auth) on your own, keeping the UI.
+3. Rewrite the frontend (components, forms) on your own, keeping the backend.
+4. Rewrite the whole thing.
+5. Write it from scratch with no reference — from memory.
 
-`components/ui/*` специально написаны как отдельный, тонкий слой поверх
-radix-ui — чтобы на шаге 3/4 их можно было заменить на свои компоненты,
-не трогая `features/*` (формы и списки импортируют `Button`, `Input` и т.д.
-по имени, а не завязаны на реализацию).
+`components/ui/*` are deliberately written as a thin, separate layer on top
+of radix-ui — so at step 3/4 they can be swapped for your own components
+without touching `features/*` (forms and lists import `Button`, `Input`,
+etc. by name, not tied to the implementation).

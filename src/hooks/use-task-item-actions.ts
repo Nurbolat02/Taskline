@@ -6,22 +6,22 @@ import { toast } from "sonner";
 import { deleteTaskAction, updateTaskStatusAction } from "@/actions/tasks";
 import type { TaskStatus } from "@/schemas/task";
 
-// Инкапсулирует состояние диалогов редактирования/удаления и обе мутации карточки
-// задачи (смена статуса, удаление) — TaskItem остаётся чисто презентационным.
+// Encapsulates the edit/delete dialog state and both task-card mutations
+// (status change, delete) — TaskItem stays purely presentational.
 export function useTaskItemActions(taskId: string) {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const statusAction = useAction(updateTaskStatusAction, {
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось изменить статус"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to update status"),
   });
 
   const deleteAction = useAction(deleteTaskAction, {
     onSuccess: () => {
-      toast.success("Задача удалена");
+      toast.success("Task deleted");
       setDeleteOpen(false);
     },
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось удалить задачу"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to delete task"),
   });
 
   return {

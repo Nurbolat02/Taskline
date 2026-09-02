@@ -17,7 +17,7 @@ export function Navbar({ user }: { user: User }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Закрывает меню по клику вне него или по Escape.
+  // Closes the menu on a click outside it or on Escape.
   useEffect(() => {
     if (!menuOpen) {
       return undefined;
@@ -72,7 +72,7 @@ export function Navbar({ user }: { user: User }) {
               }}
             >
               <LogOut size={16} className={styles.logoutIcon} />
-              Выйти
+              Log out
             </button>
           </div>
         )}

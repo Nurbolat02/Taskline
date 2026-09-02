@@ -11,13 +11,13 @@ import { createSession, destroySession } from "@/lib/auth/session";
 import { logActivity } from "@/lib/activity-log";
 import { getRequestMeta } from "@/lib/request-meta";
 
-// registerAction и loginAction на actionClient, а не authActionClient — пользователь
-// ещё не залогинен, эти действия должны быть доступны без авторизации
+// registerAction and loginAction use actionClient, not authActionClient — the
+// user isn't logged in yet, these actions must be reachable without auth.
 export const registerAction = actionClient.inputSchema(registerSchema).action(async ({ parsedInput }) => {
   const { name, email, password } = parsedInput;
   const [existing] = await db.select().from(users).where(eq(users.email, email));
   if (existing) {
-    throw new Error("Пользователь с таким email уже существует");
+    throw new Error("A user with this email already exists");
   }
   const passwordHash = await hashPassword(password);
   const [user] = await db
@@ -39,11 +39,11 @@ export const loginAction = actionClient.inputSchema(loginSchema).action(async ({
   const { email, password } = parsedInput;
   const [user] = await db.select().from(users).where(eq(users.email, email));
   if (!user) {
-    throw new Error("Неверный email или пароль");
+    throw new Error("Invalid email or password");
   }
   const isValid = await verifyPassword(password, user.passwordHash);
   if (!isValid) {
-    throw new Error("Неверный email или пароль");
+    throw new Error("Invalid email or password");
   }
   const meta = await getRequestMeta();
   await createSession(user.id, meta);
@@ -51,8 +51,8 @@ export const loginAction = actionClient.inputSchema(loginSchema).action(async ({
   redirect("/");
 });
 
-// authActionClient — logoutAction требует авторизованного пользователя, ctx.user уже есть.
-// Входных данных нет, поэтому .inputSchema() не нужен.
+// authActionClient — logoutAction requires a logged-in user, ctx.user is already set.
+// No input, so .inputSchema() isn't needed.
 export const logoutAction = authActionClient.action(async ({ ctx }) => {
   await logActivity(ctx.user.id, "auth.logout");
   await destroySession();

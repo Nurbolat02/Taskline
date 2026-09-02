@@ -9,14 +9,15 @@ import { createTaskAction, updateTaskAction } from "@/actions/tasks";
 import { taskSchema } from "@/schemas/task";
 import type { TaskWithCategory } from "@/types";
 
-// <select> всегда отдаёт строку, поэтому в форме categoryId — обычная строка
-// ("" значит "без категории"), а в настоящий z.uuid().nullable() из taskSchema
-// превращаем прямо перед отправкой на сервер (onSubmit).
+// <select> always returns a string, so in the form categoryId is a plain
+// string ("" means "no category"), and it's converted to the real
+// z.uuid().nullable() from taskSchema right before it's sent to the server (onSubmit).
 const formSchema = taskSchema.extend({ categoryId: z.string() });
 type TaskFormValues = z.infer<typeof formSchema>;
 
-// Инкапсулирует react-hook-form + create/update actions для формы задачи —
-// TaskForm остаётся чисто презентационным. Наличие `task` решает, какой action вызвать.
+// Encapsulates react-hook-form + the create/update actions for the task form
+// — TaskForm stays purely presentational. Whether `task` is set decides which
+// action gets called.
 export function useTaskForm({ task, onDone }: { task?: TaskWithCategory; onDone?: () => void }) {
   const form = useForm<TaskFormValues>({
     resolver: zodResolver(formSchema),
@@ -31,18 +32,18 @@ export function useTaskForm({ task, onDone }: { task?: TaskWithCategory; onDone?
 
   const createAction = useAction(createTaskAction, {
     onSuccess: () => {
-      toast.success("Задача создана");
+      toast.success("Task created");
       onDone?.();
     },
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось создать задачу"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to create task"),
   });
 
   const updateAction = useAction(updateTaskAction, {
     onSuccess: () => {
-      toast.success("Задача обновлена");
+      toast.success("Task updated");
       onDone?.();
     },
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось обновить задачу"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to update task"),
   });
 
   const isExecuting = updateAction.isExecuting || createAction.isExecuting;

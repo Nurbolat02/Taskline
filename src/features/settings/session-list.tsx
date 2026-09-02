@@ -25,18 +25,18 @@ function SessionRow({ session, isCurrent }: { session: Session; isCurrent: boole
     <li className={listStyles.row}>
       <div className={styles.info}>
         <div className={styles.deviceLine}>
-          <span>{session.userAgent ?? "Неизвестное устройство"}</span>
-          {isCurrent && <Badge variant="secondary">Это устройство</Badge>}
-          {!isActive && <Badge variant="outline">Завершена</Badge>}
+          <span>{session.userAgent ?? "Unknown device"}</span>
+          {isCurrent && <Badge variant="secondary">This device</Badge>}
+          {!isActive && <Badge variant="outline">Ended</Badge>}
         </div>
         <span className={styles.meta}>
-          Создана: {new Date(session.createdAt).toLocaleString("ru-RU")}
+          Created: {new Date(session.createdAt).toLocaleString("en-US")}
           {session.ipAddress ? ` · IP: ${session.ipAddress}` : ""}
         </span>
       </div>
       {isActive && !isCurrent && (
         <Button variant="outline" size="sm" disabled={isRevoking} onClick={revokeSession}>
-          Завершить
+          End
         </Button>
       )}
     </li>

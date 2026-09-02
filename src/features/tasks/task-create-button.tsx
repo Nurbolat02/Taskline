@@ -14,11 +14,11 @@ export function TaskCreateButton({ categories }: { categories: Category[] }) {
     <>
       <Button onClick={() => setOpen(true)}>
         <Plus size={16} />
-        Новая задача
+        New task
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogHeader>
-          <DialogTitle>Новая задача</DialogTitle>
+          <DialogTitle>New task</DialogTitle>
         </DialogHeader>
         <TaskForm categories={categories} onDone={() => setOpen(false)} />
       </Dialog>

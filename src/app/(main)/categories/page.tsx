@@ -17,7 +17,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className={styles.pageMedium}>
-      <h1 className={styles.title}>Категории</h1>
+      <h1 className={styles.title}>Categories</h1>
       <CategoryForm />
       <CategoryList categories={userCategories} />
     </div>

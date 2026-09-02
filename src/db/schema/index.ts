@@ -1,4 +1,4 @@
-// Барабанный файл — нужен, чтобы db/index.ts и drizzle.config.ts импортировали схему одним импортом.
+// Barrel file — lets db/index.ts and drizzle.config.ts import the whole schema in one go.
 export * from "./users";
 export * from "./tasks";
 export * from "./sessions";

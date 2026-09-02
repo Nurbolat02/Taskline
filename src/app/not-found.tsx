@@ -2,15 +2,15 @@ import Link from "next/link";
 import { buttonClassName } from "@/components/ui/button";
 import styles from "./not-found.module.css";
 
-// Next.js рендерит ближайший not-found.tsx вверх по дереву — как для
-// несуществующих URL, так и когда код явно вызывает notFound() (см. tasks/[id]/page.tsx).
+// Next.js renders the nearest not-found.tsx up the tree — both for
+// non-existent URLs and when code explicitly calls notFound() (see tasks/[id]/page.tsx).
 export default function NotFound() {
   return (
     <div className={styles.wrap}>
       <h1 className={styles.title}>404</h1>
-      <p className={styles.message}>Страница не найдена</p>
+      <p className={styles.message}>Page not found</p>
       <Link href="/" className={buttonClassName("default", "default", styles.link)}>
-        На главную
+        Go home
       </Link>
     </div>
   );

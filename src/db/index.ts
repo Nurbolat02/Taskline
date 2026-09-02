@@ -8,7 +8,7 @@ if (!process.env.DATABASE_URL) {
 
 const client = postgres(process.env.DATABASE_URL);
 
-// Модули Node.js кэшируются, поэтому client/db создаются один раз при первом импорте,
-// а не при каждом запросе — иначе на каждый HTTP-запрос открывалось бы новое соединение
-// к БД и быстро исчерпало бы лимит соединений Postgres.
+// Node.js caches modules, so client/db are created once on first import rather
+// than on every request — otherwise every HTTP request would open a new
+// connection to Postgres and quickly exhaust its connection limit.
 export const db = drizzle(client, { schema });

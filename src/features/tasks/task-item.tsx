@@ -31,7 +31,7 @@ export function TaskItem({ task, categories }: { task: TaskWithCategory; categor
           )}
         </div>
         {task.description && <p className={styles.description}>{task.description}</p>}
-        {task.dueDate && <p className={styles.due}>Срок : {new Date(task.dueDate).toLocaleString("ru-RU")}</p>}
+        {task.dueDate && <p className={styles.due}>Due: {new Date(task.dueDate).toLocaleString("en-US")}</p>}
       </div>
       <div className={styles.actions}>
         <Select
@@ -46,28 +46,28 @@ export function TaskItem({ task, categories }: { task: TaskWithCategory; categor
           ))}
         </Select>
 
-        <Button variant="ghost" size="icon" aria-label="Редактировать" onClick={() => setEditOpen(true)}>
+        <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => setEditOpen(true)}>
           <Pencil size={16} />
         </Button>
         <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
           <DialogHeader>
-            <DialogTitle>Редактировать задачу</DialogTitle>
+            <DialogTitle>Edit task</DialogTitle>
           </DialogHeader>
           <TaskForm task={task} categories={categories} onDone={() => setEditOpen(false)} />
         </Dialog>
-        <Button variant="ghost" size="icon" aria-label="Удалить" onClick={() => setDeleteOpen(true)}>
+        <Button variant="ghost" size="icon" aria-label="Delete" onClick={() => setDeleteOpen(true)}>
           <Trash2 size={16} />
         </Button>
         <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
           <DialogHeader>
-            <DialogTitle>Удалить задачу "{task.title}"?</DialogTitle>
+            <DialogTitle>Delete task "{task.title}"?</DialogTitle>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>
-              Отмена
+              Cancel
             </Button>
             <Button variant="destructive" disabled={isDeleting} onClick={confirmDelete}>
-              Удалить
+              Delete
             </Button>
           </DialogFooter>
         </Dialog>

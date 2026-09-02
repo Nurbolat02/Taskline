@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyJwt } from "@/lib/auth/jwt";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 
-// middleware работает в Edge Runtime — нет доступа к Postgres, поэтому проверка тут
-// ОПТИМИСТИЧНАЯ: только подпись и срок действия JWT. Настоящую проверку (не отозвана
-// ли сессия в БД) делает getCurrentUser() в layout.tsx — там уже Node-окружение.
+// middleware runs in the Edge Runtime — no access to Postgres, so the check here
+// is OPTIMISTIC: only the JWT signature and expiry. The real check (is the
+// session revoked in the DB) happens in getCurrentUser() in layout.tsx, which
+// already runs in the Node environment.
 const AUTH_ROUTES = ["/login", "/register"];
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -28,8 +29,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   return NextResponse.next();
 }
 
-// Ко всем путям, КРОМЕ статики Next.js (_next/static, _next/image) и favicon.ico —
-// их незачем прогонять через проверку авторизации.
+// All paths EXCEPT Next.js static assets (_next/static, _next/image) and
+// favicon.ico — no point running those through the auth check.
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

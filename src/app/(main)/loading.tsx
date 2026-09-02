@@ -1,8 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import styles from "./loading.module.css";
 
-// Показывается автоматически, пока Server Component страницы "/" ждёт
-// ответа от БД (db.query.tasks.findMany и т.д.) — ничего вручную вызывать не нужно.
+// Shown automatically while the "/" page's Server Component waits for the DB
+// (db.query.tasks.findMany, etc.) — nothing needs to be triggered manually.
 export default function DashboardLoading() {
   return (
     <div className={styles.wrap}>

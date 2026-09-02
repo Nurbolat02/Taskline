@@ -5,8 +5,8 @@ export default function RegisterPage() {
   return (
     <div className={styles.page}>
       <div className={styles.heading}>
-        <h1 className={styles.title}>Регистрация</h1>
-        <p className={styles.subtitle}>Создайте аккаунт, чтобы начать</p>
+        <h1 className={styles.title}>Sign up</h1>
+        <p className={styles.subtitle}>Create an account to get started</p>
       </div>
       <RegisterForm />
     </div>

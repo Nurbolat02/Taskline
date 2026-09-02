@@ -7,9 +7,9 @@ import type { TaskWithCategory } from "@/types";
 import listStyles from "@/styles/list.module.css";
 import styles from "./task-list.module.css";
 
-// Данные (tasks) приходят с сервера через проп, а вот КАК их сейчас
-// показать — решает zustand-стор с фильтрами. Разделение "откуда данные"
-// и "как их отобразить" — то, ради чего вообще стоило заводить стор.
+// Data (tasks) comes from the server through a prop, but HOW it's currently
+// shown is decided by the zustand filter store. Splitting "where the data
+// comes from" from "how it's displayed" is the whole reason for having the store.
 export function TaskList({ tasks, categories }: { tasks: TaskWithCategory[]; categories: Category[] }) {
   const filters = useUiStore((state) => state.filters);
 
@@ -28,7 +28,7 @@ export function TaskList({ tasks, categories }: { tasks: TaskWithCategory[]; cat
   });
 
   if (filtered.length === 0) {
-    return <p className={styles.empty}>Задач не найдено.</p>;
+    return <p className={styles.empty}>No tasks found.</p>;
   }
 
   return (

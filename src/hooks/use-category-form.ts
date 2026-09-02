@@ -10,9 +10,9 @@ import type { Category } from "@/db/schema";
 
 const DEFAULT_COLOR = "#64748b";
 
-// Инкапсулирует react-hook-form + create/update actions для формы категории —
-// CategoryForm остаётся чисто презентационным. Наличие `category` решает,
-// какой action вызвать.
+// Encapsulates react-hook-form + the create/update actions for the category
+// form — CategoryForm stays purely presentational. Whether `category` is set
+// decides which action gets called.
 export function useCategoryForm({ category, onDone }: { category?: Category; onDone?: () => void }) {
   const form = useForm({
     resolver: zodResolver(categorySchema),
@@ -24,19 +24,19 @@ export function useCategoryForm({ category, onDone }: { category?: Category; onD
 
   const createAction = useAction(createCategoryAction, {
     onSuccess: () => {
-      toast.success("Категория создана");
+      toast.success("Category created");
       form.reset({ name: "", color: DEFAULT_COLOR });
       onDone?.();
     },
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось создать категорию"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to create category"),
   });
 
   const updateAction = useAction(updateCategoryAction, {
     onSuccess: () => {
-      toast.success("Категория обновлена");
+      toast.success("Category updated");
       onDone?.();
     },
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось обновить категорию"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to update category"),
   });
 
   const isExecuting = updateAction.isExecuting || createAction.isExecuting;

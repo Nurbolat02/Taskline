@@ -8,8 +8,8 @@ import { TASK_STATUSES, TASK_STATUS_LABELS } from "@/schemas/task";
 import type { Category } from "@/db/schema";
 import styles from "./task-filters.module.css";
 
-// Вся фильтрация происходит на клиенте поверх уже загруженного списка задач —
-// это то самое "локальное состояние фильтров", ради которого в проекте есть Zustand.
+// All filtering happens on the client over the already-loaded task list —
+// this is exactly the "local filter state" Zustand exists for in this project.
 export function TaskFilters({ categories }: { categories: Category[] }) {
   const { filters, setSearch, setStatusFilter, setCategoryFilter, resetFilters } = useUiStore();
 
@@ -17,7 +17,7 @@ export function TaskFilters({ categories }: { categories: Category[] }) {
     <div className={styles.filters}>
       <Input
         value={filters.search}
-        placeholder="Поиск по названию..."
+        placeholder="Search by name..."
         onChange={(event) => setSearch(event.target.value)}
         className={styles.search}
       />
@@ -26,7 +26,7 @@ export function TaskFilters({ categories }: { categories: Category[] }) {
         onChange={(event) => setStatusFilter(event.target.value as typeof filters.status)}
         className={styles.select}
       >
-        <option value="all">Все статусы</option>
+        <option value="all">All statuses</option>
         {TASK_STATUSES.map((status) => (
           <option key={status} value={status}>
             {TASK_STATUS_LABELS[status]}
@@ -38,7 +38,7 @@ export function TaskFilters({ categories }: { categories: Category[] }) {
         onChange={(event) => setCategoryFilter(event.target.value)}
         className={styles.select}
       >
-        <option value="all">Все категории</option>
+        <option value="all">All categories</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.name}
@@ -46,7 +46,7 @@ export function TaskFilters({ categories }: { categories: Category[] }) {
         ))}
       </Select>
       <Button variant="ghost" onClick={resetFilters}>
-        Сбросить
+        Reset
       </Button>
     </div>
   );

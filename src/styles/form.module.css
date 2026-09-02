@@ -1,6 +1,6 @@
 /*
- * Общие классы для всех форм проекта (login/register/category/task).
- * Один файл вместо копии одних и тех же 6 строк в каждой feature-папке.
+ * Shared classes for every form in the project (login/register/category/task).
+ * One file instead of copying the same 6 lines into every feature folder.
  */
 
 .form {

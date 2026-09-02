@@ -1,5 +1,5 @@
 import type { Task, Category } from "@/db/schema";
 
-// Задача с подгруженной категорией (или null, если категория не выбрана
-// или была удалена) — то, что реально возвращает наш запрос со джойном.
+// A task with its category loaded (or null if no category is set or it was
+// deleted) — this is what our join query actually returns.
 export type TaskWithCategory = Task & { category: Category | null };

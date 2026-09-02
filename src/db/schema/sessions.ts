@@ -2,9 +2,10 @@ import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { users } from "./users";
 
-// JWT нельзя отозвать сам по себе (валиден до истечения exp), поэтому каждой выданной
-// JWT-сессии соответствует строка здесь — logout проставляет revokedAt, и getCurrentUser()
-// перестаёт считать такой токен валидным, даже если подпись всё ещё корректна.
+// A JWT can't be revoked on its own (it stays valid until exp), so every issued
+// JWT session has a matching row here — logout sets revokedAt, and
+// getCurrentUser() stops treating that token as valid even though its
+// signature is still correct.
 export const sessions = pgTable("sessions", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")

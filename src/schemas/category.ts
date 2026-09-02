@@ -9,7 +9,7 @@ export const categorySchema = z.object({
 });
 export type CategoryInput = z.infer<typeof categorySchema>;
 
-// Расширяет categorySchema, чтобы не дублировать правила name/color.
+// Extends categorySchema so the name/color rules aren't duplicated.
 export const updateCategorySchema = categorySchema.extend({
   id: z.uuid(),
 });

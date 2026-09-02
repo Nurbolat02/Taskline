@@ -5,7 +5,7 @@ import { sessions, users, type User, type Session } from "@/db/schema";
 import { signJwt, verifyJwt } from "./jwt";
 import { SESSION_COOKIE_NAME, SESSION_DURATION_MS, JWT_EXPIRES_IN } from "./constants";
 
-// Вызывается из login/register ПОСЛЕ того, как пароль уже проверен.
+// Called from login/register AFTER the password has already been verified.
 export async function createSession(
   userId: string,
   meta: { userAgent?: string | null; ipAddress?: string | null },
@@ -21,13 +21,13 @@ export async function createSession(
     })
     .returning();
 
-  // Срок жизни JWT (JWT_EXPIRES_IN) выведен из той же SESSION_DURATION_MS, чтобы
-  // токен и запись в БД не расходились по времени.
+  // JWT_EXPIRES_IN is derived from the same SESSION_DURATION_MS so the token and
+  // the DB record never drift apart in how long they stay valid.
   const token = await signJwt({ sub: userId, sessionId: session.id }, JWT_EXPIRES_IN);
 
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, token, {
-    httpOnly: true, // JS на странице не может прочитать cookie — защита от XSS
+    httpOnly: true, // client-side JS can't read the cookie — protects against XSS
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
@@ -46,9 +46,9 @@ export async function getCurrentUser(): Promise<User | null> {
   if (!payload) {
     return null;
   }
-  // Сессия должна быть не отозвана И не истекла — именно тут ловится случай
-  // "разлогинился, но JWT физически ещё валиден": сам токен не знает об отзыве,
-  // а в БД это уже отмечено.
+  // The session must be neither revoked nor expired — this is exactly where the
+  // "logged out, but the JWT is still technically valid" case gets caught: the
+  // token itself doesn't know it was revoked, but the DB does.
   const [session] = await db
     .select()
     .from(sessions)
@@ -62,12 +62,12 @@ export async function getCurrentUser(): Promise<User | null> {
   return user || null;
 }
 
-// Используется в server actions, где пользователь обязан быть залогинен —
-// ошибку дальше ловит authActionClient.
+// Used in server actions where the user is required to be logged in — the
+// resulting error is caught by authActionClient.
 export async function requireUser(): Promise<User> {
   const user = await getCurrentUser();
   if (!user) {
-    throw new Error("Не авторизован");
+    throw new Error("Not authenticated");
   }
   return user;
 }
@@ -79,7 +79,7 @@ export async function destroySession() {
   if (token) {
     const payload = await verifyJwt(token);
     if (payload) {
-      // Помечаем сессию отозванной, а не удаляем строку.
+      // Mark the session revoked rather than deleting the row.
       await db.update(sessions).set({ revokedAt: new Date() }).where(eq(sessions.id, payload.sessionId));
     }
   }

@@ -1,6 +1,6 @@
 /*
- * Общий вид "список строк в рамке" — используется для категорий, сессий
- * и журнала действий: рамка со скруглением + разделители между строками.
+ * Shared "bordered list of rows" look — used for categories, sessions, and
+ * the activity log: a rounded border plus dividers between rows.
  */
 
 .list {

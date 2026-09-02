@@ -2,8 +2,8 @@ import { pgTable, uuid, text, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { users } from "./users";
 
-// Журнал действий пользователя — при каждом важном событии (создал задачу,
-// вошёл в аккаунт и т.п.) сюда добавляется запись.
+// User activity log — every important event (created a task, logged in, etc.)
+// adds a row here.
 export const activityLog = pgTable("activity_log", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")

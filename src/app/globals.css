@@ -1,6 +1,6 @@
 /*
- * Обычный CSS: без Tailwind, без @theme/@layer/@apply. Дизайн-токены —
- * просто CSS-переменные на :root, тёмная тема — переменные внутри .dark.
+ * Plain CSS: no Tailwind, no @theme/@layer/@apply. Design tokens are just
+ * CSS variables on :root, dark theme overrides them inside .dark.
  */
 
 :root {

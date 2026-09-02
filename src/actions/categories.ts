@@ -31,7 +31,7 @@ export const updateCategoryAction = authActionClient
       .where(and(eq(categories.id, id), eq(categories.userId, ctx.user.id)))
       .returning();
     if (!category) {
-      throw new Error("Категория не найдена");
+      throw new Error("Category not found");
     }
     await logActivity(ctx.user.id, "category.updated", { categoryId: category.id });
     revalidatePath("/categories");
@@ -48,7 +48,7 @@ export const deleteCategoryAction = authActionClient
       .returning();
 
     if (!category) {
-      throw new Error("Категория не найдена");
+      throw new Error("Category not found");
     }
 
     await logActivity(ctx.user.id, "category.deleted", { categoryId: category.id, categoryName: category.name });

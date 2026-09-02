@@ -43,7 +43,7 @@ export const updateTaskAction = authActionClient.inputSchema(updateTaskSchema).a
     })
     .where(and(eq(tasks.id, id), eq(tasks.userId, ctx.user.id)))
     .returning();
-  if (!task) throw new Error("Задача не найдена");
+  if (!task) throw new Error("Task not found");
 
   await logActivity(ctx.user.id, "task.updated", { taskId: id });
   revalidatePath("/");
@@ -51,8 +51,8 @@ export const updateTaskAction = authActionClient.inputSchema(updateTaskSchema).a
   return task;
 });
 
-// Отдельный лёгкий экшн только для смены статуса — используется в select прямо на карточке
-// задачи, чтобы не гонять всю форму ради одного поля.
+// Separate lightweight action just for changing status — used in the select
+// right on the task card, so we don't have to submit the whole form for one field.
 export const updateTaskStatusAction = authActionClient
   .inputSchema(updateTaskStatusSchema)
   .action(async ({ parsedInput, ctx }) => {
@@ -65,7 +65,7 @@ export const updateTaskStatusAction = authActionClient
       .where(and(eq(tasks.id, parsedInput.id), eq(tasks.userId, ctx.user.id)))
       .returning();
     if (!task) {
-      throw new Error("Задача не найдена");
+      throw new Error("Task not found");
     }
 
     await logActivity(ctx.user.id, "task.status_changed", {
@@ -84,7 +84,7 @@ export const deleteTaskAction = authActionClient.inputSchema(deleteTaskSchema).a
     .where(and(eq(tasks.userId, ctx.user.id), eq(tasks.id, parsedInput.id)))
     .returning();
   if (!task) {
-    throw new Error("Задача не найдена");
+    throw new Error("Task not found");
   }
   await logActivity(ctx.user.id, "task.deleted", {
     taskId: parsedInput.id,

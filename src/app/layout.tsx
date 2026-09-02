@@ -5,12 +5,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Learn Fullstack — Task Tracker",
-  description: "Учебный проект: Next.js + Drizzle + JWT-авторизация",
+  description: "A learning project: Next.js + Drizzle + JWT authentication",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ru">
+    <html lang="en">
       <body>
         {children}
         <Toaster richColors position="top-right" />

@@ -5,19 +5,19 @@ import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { deleteCategoryAction } from "@/actions/categories";
 
-// Инкапсулирует состояние диалогов редактирования/удаления и удаление
-// категории — CategoryRow остаётся чисто презентационным.
+// Encapsulates the edit/delete dialog state and the category delete mutation
+// — CategoryRow stays purely presentational.
 export function useCategoryRowActions(categoryId: string) {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const deleteAction = useAction(deleteCategoryAction, {
     onSuccess: () => {
-      toast.success("Категория удалена");
+      toast.success("Category deleted");
       setDeleteOpen(false);
     },
     onError: ({ error }) => {
-      toast.error(error.serverError || "Не удалось удалить категорию");
+      toast.error(error.serverError || "Failed to delete category");
     },
   });
 

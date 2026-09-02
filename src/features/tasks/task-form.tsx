@@ -11,8 +11,8 @@ import type { Category } from "@/db/schema";
 import type { TaskWithCategory } from "@/types";
 import formStyles from "@/styles/form.module.css";
 
-// Одна форма на создание и редактирование: наличие `task` решает, какой
-// action вызвать (см. useTaskForm).
+// One form for both create and edit: whether `task` is passed decides which
+// action to call (see useTaskForm).
 export function TaskForm({
   task,
   categories,
@@ -52,7 +52,7 @@ export function TaskForm({
         <div className={formStyles.field}>
           <Label htmlFor="categoryId">Category</Label>
           <Select id="categoryId" {...form.register("categoryId")}>
-            <option value="">Без категории</option>
+            <option value="">No category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
@@ -66,7 +66,7 @@ export function TaskForm({
         <Input id="dueDate" type="date" {...form.register("dueDate")} />
       </div>
       <Button type="submit" disabled={isExecuting} className={formStyles.selfEnd}>
-        {task ? "Сохранить" : "Создать задачу"}
+        {task ? "Save" : "Create task"}
       </Button>
     </form>
   );

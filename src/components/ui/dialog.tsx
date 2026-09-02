@@ -6,9 +6,9 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import styles from "./dialog.module.css";
 
-// Рендерится через портал в document.body. useEffect не выполняется во время SSR, но
-// createPortal выполняется — поэтому перед вызовом проверяем, открыта ли модалка и
-// существует ли уже document (на сервере его ещё нет).
+// Rendered through a portal into document.body. useEffect doesn't run during
+// SSR, but createPortal does — so before calling it, check whether the dialog
+// is actually open and whether document already exists (it doesn't on the server).
 export function Dialog({ open, onClose, children }: { open: boolean; onClose: () => void; children: React.ReactNode }) {
   React.useEffect(() => {
     if (!open) {

@@ -26,7 +26,7 @@ export default async function DashboardPage() {
   return (
     <div className={styles.page}>
       <div className={styles.headerRow}>
-        <h1 className={styles.title}>Задачи</h1>
+        <h1 className={styles.title}>Tasks</h1>
         <TaskCreateButton categories={userCategories} />
       </div>
       <TaskFilters categories={userCategories} />

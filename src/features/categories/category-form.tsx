@@ -8,8 +8,8 @@ import type { Category } from "@/db/schema";
 import formStyles from "@/styles/form.module.css";
 import styles from "./category-form.module.css";
 
-// Одна форма на create и на edit: если передан `category`, вызываем
-// updateCategoryAction с его id, иначе — createCategoryAction (см. useCategoryForm).
+// One form for both create and edit: if `category` is passed, calls
+// updateCategoryAction with its id, otherwise createCategoryAction (see useCategoryForm).
 export function CategoryForm({ category, onDone }: { category?: Category; onDone?: () => void }) {
   const { form, onSubmit, isExecuting } = useCategoryForm({ category, onDone });
 
@@ -20,12 +20,12 @@ export function CategoryForm({ category, onDone }: { category?: Category; onDone
         <Input id="color" type="color" className={styles.colorInput} {...form.register("color")} />
       </div>
       <div className={`${formStyles.field} ${styles.nameField}`}>
-        <Label htmlFor="name">Название категории</Label>
-        <Input id="name" placeholder="Например: Работа" {...form.register("name")} />
+        <Label htmlFor="name">Category name</Label>
+        <Input id="name" placeholder="e.g. Work" {...form.register("name")} />
         {form.formState.errors.name && <p className={formStyles.errorText}>{form.formState.errors.name.message}</p>}
       </div>
       <Button type="submit" disabled={isExecuting}>
-        {category ? "Сохранить" : "Добавить"}
+        {category ? "Save" : "Add"}
       </Button>
     </form>
   );

@@ -5,7 +5,7 @@ import { tasks } from "./tasks";
 
 export const categories = pgTable("categories", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  // Если пользователя удалят — все его категории удалятся вместе с ним.
+  // If the user is deleted, all their categories are deleted with them.
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

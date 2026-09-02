@@ -6,8 +6,8 @@ import { revokeSessionAction } from "@/actions/sessions";
 
 export function useSessionRevoke(sessionId: string) {
   const revoke = useAction(revokeSessionAction, {
-    onError: ({ error }) => toast.error(error.serverError || "Не удалось завершить сессию"),
-    onSuccess: () => toast.success("Сессия завершена"),
+    onError: ({ error }) => toast.error(error.serverError || "Failed to end session"),
+    onSuccess: () => toast.success("Session ended"),
   });
 
   return {

@@ -10,7 +10,7 @@ import { logActivity } from "@/lib/activity-log";
 
 const revokeSessionSchema = z.object({ id: z.uuid() });
 
-// Не удаляем сессию физически, а проставляем revokedAt текущей датой.
+// Doesn't delete the session physically, just sets revokedAt to now.
 export const revokeSessionAction = authActionClient
   .inputSchema(revokeSessionSchema)
   .action(async ({ parsedInput, ctx }) => {
@@ -21,7 +21,7 @@ export const revokeSessionAction = authActionClient
       .returning();
 
     if (!session) {
-      throw new Error("Сессия не найдена");
+      throw new Error("Session not found");
     }
 
     await logActivity(ctx.user.id, "auth.session_revoked", {

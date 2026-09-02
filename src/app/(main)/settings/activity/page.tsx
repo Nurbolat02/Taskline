@@ -9,8 +9,8 @@ import { SessionList } from "@/features/settings/session-list";
 import { ActivityLogList } from "@/features/settings/activity-log-list";
 import styles from "@/styles/page.module.css";
 
-// Страница-знакомство с Session/Activity log: список активных JWT-сессий
-// (с возможностью отозвать конкретную) и журнал последних действий пользователя.
+// Introductory page for Session/Activity log: a list of active JWT sessions
+// (with the option to revoke one) and a log of the user's recent actions.
 export default async function ActivityPage() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -34,11 +34,11 @@ export default async function ActivityPage() {
   return (
     <div className={styles.pageWide}>
       <div className={styles.section}>
-        <h1 className={styles.title}>Активные сессии</h1>
+        <h1 className={styles.title}>Active sessions</h1>
         <SessionList sessions={userSessions} currentSessionId={payload?.sessionId ?? null} />
       </div>
       <div className={styles.section}>
-        <h2 className={styles.subtitle}>Журнал действий</h2>
+        <h2 className={styles.subtitle}>Activity log</h2>
         <ActivityLogList entries={entries} />
       </div>
     </div>

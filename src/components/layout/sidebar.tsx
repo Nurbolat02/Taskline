@@ -7,13 +7,13 @@ import { useUiStore } from "@/store/ui-store";
 import styles from "./sidebar.module.css";
 
 const links = [
-  { href: "/", label: "Задачи" },
-  { href: "/categories", label: "Категории" },
-  { href: "/settings/activity", label: "Активность" },
+  { href: "/", label: "Tasks" },
+  { href: "/categories", label: "Categories" },
+  { href: "/settings/activity", label: "Activity" },
 ];
 
-// isSidebarOpen из zustand управляет видимостью на мобильных экранах —
-// на десктопе сайдбар всегда виден.
+// isSidebarOpen from zustand controls visibility on mobile screens — on
+// desktop the sidebar is always visible.
 export function Sidebar() {
   const pathname = usePathname();
   const isSidebarOpen = useUiStore((state) => state.isSidebarOpen);
