@@ -31,7 +31,7 @@ export function LoginForm() {
         {isExecuting ? "Logging in..." : "Log in"}
       </Button>
       <p className={form.footerText}>
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/register" className={form.footerLink}>
           Sign up
         </Link>{" "}

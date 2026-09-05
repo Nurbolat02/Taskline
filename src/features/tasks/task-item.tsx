@@ -60,7 +60,7 @@ export function TaskItem({ task, categories }: { task: TaskWithCategory; categor
         </Button>
         <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
           <DialogHeader>
-            <DialogTitle>Delete task "{task.title}"?</DialogTitle>
+            <DialogTitle>Delete task &quot;{task.title}&quot;?</DialogTitle>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>

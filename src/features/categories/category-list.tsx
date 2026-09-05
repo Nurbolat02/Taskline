@@ -50,7 +50,7 @@ function CategoryRow({ category }: { category: Category }) {
           <DialogHeader>
             <DialogTitle>Delete category {category.name}?</DialogTitle>
           </DialogHeader>
-          <p className={styles.footerText}>Tasks in this category won't be deleted, they'll just lose their category</p>
+          <p className={styles.footerText}>Tasks in this category won&apos;t be deleted, they&apos;ll just lose their category</p>
           <DialogFooter>
             <Button variant="destructive" disabled={isDeleting} onClick={confirmDelete}>
               Delete
