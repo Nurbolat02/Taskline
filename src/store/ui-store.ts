@@ -10,6 +10,7 @@ type TaskFilters = {
 type UiState = {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  closeSidebar: () => void;
   filters: TaskFilters;
   setSearch: (search: string) => void;
   setStatusFilter: (status: TaskFilters["status"]) => void;
@@ -24,8 +25,9 @@ const defaultFilters: TaskFilters = {
 };
 
 export const useUiStore = create<UiState>((set) => ({
-  isSidebarOpen: true,
+  isSidebarOpen: false,
   toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+  closeSidebar: () => set({ isSidebarOpen: false }),
   filters: defaultFilters,
   setSearch: (search) => set((state) => ({ filters: { ...state.filters, search } })),
   setStatusFilter: (status) => set((state) => ({ filters: { ...state.filters, status } })),

@@ -3,10 +3,38 @@
 	flex-shrink: 0;
 	border-right: 1px solid var(--border);
 	padding: 1rem;
+	background: var(--background);
 }
 
 .closed {
 	display: none;
+}
+
+.backdrop {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.open {
+		position: fixed;
+		top: 3.5rem;
+		bottom: 0;
+		left: 0;
+		z-index: 40;
+		overflow-y: auto;
+		box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+	}
+
+	.backdrop {
+		display: block;
+		position: fixed;
+		top: 3.5rem;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 30;
+		background: rgba(0, 0, 0, 0.4);
+	}
 }
 
 @media (min-width: 768px) {

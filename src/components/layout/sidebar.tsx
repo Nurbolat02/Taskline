@@ -17,20 +17,25 @@ const links = [
 export function Sidebar() {
   const pathname = usePathname();
   const isSidebarOpen = useUiStore((state) => state.isSidebarOpen);
+  const closeSidebar = useUiStore((state) => state.closeSidebar);
 
   return (
-    <aside className={cn(styles.sidebar, isSidebarOpen ? styles.open : styles.closed)}>
-      <nav className={styles.nav}>
-        {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={cn(styles.link, pathname === link.href ? styles.active : undefined)}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+    <>
+      {isSidebarOpen && <div className={styles.backdrop} onClick={closeSidebar} />}
+      <aside className={cn(styles.sidebar, isSidebarOpen ? styles.open : styles.closed)}>
+        <nav className={styles.nav}>
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={closeSidebar}
+              className={cn(styles.link, pathname === link.href ? styles.active : undefined)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 }
