@@ -2,17 +2,14 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  background-color: black;
 }
 
 .body {
   display: flex;
   flex: 1;
-  background-color: red;
 }
 
 .content {
   flex: 1;
   padding: 1.5rem;
-  background-color: green;
 }
